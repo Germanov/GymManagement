@@ -7,4 +7,6 @@ public interface ISubscriptionsRepository
     Task AddSubscriptionAsync(Subscription subscription);
 
     Task<Subscription?> GetByIdAsync(Guid subscriptionId);
+
+    Task RemoveSubscriptionAsync(Subscription subscription);
 }

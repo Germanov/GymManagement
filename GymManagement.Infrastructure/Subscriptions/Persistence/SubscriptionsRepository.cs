@@ -22,4 +22,11 @@ public class SubscriptionsRepository : ISubscriptionsRepository
     {
         return await _dbContext.Subscriptions.FindAsync(subscriptionId);
     }
+
+    public Task RemoveSubscriptionAsync(Subscription subscription)
+    {
+        _dbContext.Remove(subscription);
+
+        return Task.CompletedTask;
+    }
 }
