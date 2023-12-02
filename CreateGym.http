@@ -1,0 +1,13 @@
+@host=http://localhost:5071
+@subscriptionId=b5e8c198-6096-4171-9b5c-1c605a0dc299
+
+POST {{host}}/subscriptions/{{subscriptionId}}/gyms
+Content-Type: application/json
+
+{
+    "Name": "The best gym in the town"
+}
+
+###
+
+http://localhost:5051/subscriptions/51b5d6fd-75fe-44d9-a56f-2dcde66fad56/gyms/59bf64b3-fee6-4403-9631-d1a4f57cb032
