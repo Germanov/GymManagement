@@ -19,7 +19,7 @@ public class GetSubscriptionQueryHandler : IRequestHandler<GetSubscriptionQuery,
         var subcription = await _subscriptionsRepository.GetByIdAsync(request.SubscriptionId);
 
         return subcription is null
-            ? Error.NotFound(description: "Subscription not found")
+            ? Error.NotFound(description: "Subscription not found.")
             : subcription;
     }
 }
