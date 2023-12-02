@@ -1,4 +1,5 @@
 ﻿using GymManagement.Application.Gyms.Commands.CreateGym;
+using GymManagement.Application.Gyms.Commands.DeleteGym;
 using GymManagement.Application.Gyms.Queries.GetGym;
 using GymManagement.Application.Gyms.Queries.ListGym;
 using GymManagement.Contracts.Gyms;
@@ -53,6 +54,18 @@ public class GymsController : ApiController
 
         return getGymResult.Match(
             gym => Ok(new GymResponse(gym.Id, gym.Name)),
+            Problem);
+    }
+
+    [HttpDelete("{gymId:guid}")]
+    public async Task<IActionResult> DeleteGym(Guid subscriptionId, Guid gymId)
+    {
+        var command = new DeleteGymCommand(subscriptionId, gymId);
+
+        var getGymResult = await mediator.Send(command);
+
+        return getGymResult.Match(
+            _ => NoContent(),
             Problem);
     }
 }
