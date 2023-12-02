@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymManagement.Infrastructure.Gyms;
 
-public class GymRepository : IGymRepository
+public class GymRepository : IGymsRepository
 {
     private readonly GymManagementDbContext dbContext;
 
@@ -50,7 +50,7 @@ public class GymRepository : IGymRepository
         return Task.CompletedTask;
     }
 
-    public Task UpdateGym(Gym gym)
+    public Task UpdateGymAsync(Gym gym)
     {
         dbContext.Update(gym);
 

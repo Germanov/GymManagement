@@ -2,7 +2,7 @@
 
 namespace GymManagement.Application.Common.Interfaces;
 
-public interface IGymRepository
+public interface IGymsRepository
 {
     Task AddGymAsync(Gym gym);
 
@@ -16,5 +16,5 @@ public interface IGymRepository
 
     Task RemoveGymRangeAsync(List<Gym> gymList);
 
-    Task UpdateGym(Gym gym);
+    Task UpdateGymAsync(Gym gym);
 }

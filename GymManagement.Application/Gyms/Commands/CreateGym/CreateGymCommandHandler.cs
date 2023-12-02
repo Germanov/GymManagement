@@ -8,10 +8,10 @@ namespace GymManagement.Application.Gyms.Commands.CreateGym;
 public class CreateGymCommandHandler : IRequestHandler<CreateGymCommand, ErrorOr<Gym>>
 {
     private readonly ISubscriptionsRepository subscriptionsRepository;
-    private readonly IGymRepository gymsRepository;
+    private readonly IGymsRepository gymsRepository;
     private readonly IUnitOfWork unitOfWork;
 
-    public CreateGymCommandHandler(ISubscriptionsRepository subscriptionsRepository, IGymRepository gymRepository, IUnitOfWork unitOfWork)
+    public CreateGymCommandHandler(ISubscriptionsRepository subscriptionsRepository, IGymsRepository gymRepository, IUnitOfWork unitOfWork)
     {
         this.subscriptionsRepository = subscriptionsRepository;
         this.gymsRepository = gymRepository;

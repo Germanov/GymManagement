@@ -7,10 +7,10 @@ namespace GymManagement.Application.Gyms.Queries.ListGym;
 
 internal class ListGymsQueryHandler : IRequestHandler<ListGymsQuery, ErrorOr<List<Gym>>>
 {
-    private readonly IGymRepository gymRepository;
+    private readonly IGymsRepository gymRepository;
     private readonly ISubscriptionsRepository subscriptionRepository;
 
-    public ListGymsQueryHandler(IGymRepository gymRepository, ISubscriptionsRepository subscriptionRepository)
+    public ListGymsQueryHandler(IGymsRepository gymRepository, ISubscriptionsRepository subscriptionRepository)
     {
         this.gymRepository = gymRepository;
         this.subscriptionRepository = subscriptionRepository;
