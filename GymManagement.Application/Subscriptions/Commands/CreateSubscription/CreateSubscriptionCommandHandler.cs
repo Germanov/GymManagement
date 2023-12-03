@@ -7,23 +7,40 @@ namespace GymManagement.Application.Subscriptions.Commands.CreateSubscription;
 
 public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscriptionCommand, ErrorOr<Subscription>>
 {
-    private readonly ISubscriptionsRepository _subscriptionsRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ISubscriptionsRepository subscriptionsRepository;
+    private readonly IAdminsRepository adminRepository;
+    private readonly IUnitOfWork unitOfWork;
 
-    public CreateSubscriptionCommandHandler(ISubscriptionsRepository subscriptionsRepository, IUnitOfWork unitOfWork)
+    public CreateSubscriptionCommandHandler(ISubscriptionsRepository subscriptionsRepository, IAdminsRepository adminRepository, IUnitOfWork unitOfWork)
     {
-        _subscriptionsRepository = subscriptionsRepository;
-        _unitOfWork = unitOfWork;
+        this.subscriptionsRepository = subscriptionsRepository;
+        this.adminRepository = adminRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<Subscription>> Handle(CreateSubscriptionCommand request, CancellationToken cancellationToken)
     {
+        var admin = await adminRepository.GetByIdAsync(request.AdminId);
+
+        if (admin is null)
+        {
+            return Error.NotFound(description: "Admin not found.");
+        }
+
+        if (admin.SubscriptionId is not null)
+        {
+            return Error.Conflict(description: "Admin already has an active subscription.");
+        }
+
         var subscription = new Subscription(
             subscriptionType: request.SubscriptionType,
             adminId: request.AdminId);
 
-        await _subscriptionsRepository.AddSubscriptionAsync(subscription);
-        await _unitOfWork.CommitChangesAsync();
+        admin.SetSubscription(subscription);
+
+        await subscriptionsRepository.AddSubscriptionAsync(subscription);
+        await adminRepository.UpdateAsync(admin);
+        await unitOfWork.CommitChangesAsync();
 
         return subscription;
     }

@@ -13,10 +13,6 @@
     <ProjectReference Include="..\GymManagement.Application\GymManagement.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Rooms\" />
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

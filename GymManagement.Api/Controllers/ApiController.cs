@@ -13,7 +13,7 @@ namespace GymManagement.Api.Controllers
                 return Problem();
             }
 
-            if (errors.All(error => error.Type == ErrorType.Validation))
+            if (errors.All(error => error.Type is ErrorType.Validation))
             {
                 return ValidationProblem(errors);
             }
@@ -28,10 +28,12 @@ namespace GymManagement.Api.Controllers
                 ErrorType.Conflict => StatusCodes.Status409Conflict,
                 ErrorType.Validation => StatusCodes.Status400BadRequest,
                 ErrorType.NotFound => StatusCodes.Status404NotFound,
-                _ => StatusCodes.Status500InternalServerError,
+                _ => StatusCodes.Status500InternalServerError
             };
 
-            return Problem(statusCode: statusCode, detail: error.Description);
+            return Problem(
+                statusCode: statusCode,
+                detail: error.Description);
         }
 
         protected IActionResult ValidationProblem(List<Error> errors)
@@ -41,8 +43,8 @@ namespace GymManagement.Api.Controllers
             foreach (var error in errors)
             {
                 modelStateDictionary.AddModelError(
-                    error.Code,
-                    error.Description);
+                    key: error.Code,
+                    errorMessage: error.Description);
             }
 
             return ValidationProblem(modelStateDictionary);

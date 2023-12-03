@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymManagement.Infrastructure.Gyms;
 
-public class GymRepository : IGymsRepository
+public class GymsRepository : IGymsRepository
 {
     private readonly GymManagementDbContext dbContext;
 
-    public GymRepository(GymManagementDbContext dbContext)
+    public GymsRepository(GymManagementDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
