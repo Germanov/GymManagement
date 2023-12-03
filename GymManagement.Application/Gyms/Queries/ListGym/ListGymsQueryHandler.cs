@@ -18,7 +18,7 @@ internal class ListGymsQueryHandler : IRequestHandler<ListGymsQuery, ErrorOr<Lis
 
     public async Task<ErrorOr<List<Gym>>> Handle(ListGymsQuery query, CancellationToken cancellationToken)
     {
-        if (!await subscriptionRepository.ExistsAsync(query.SubscriptionId))
+        if (await subscriptionRepository.ExistsAsync(query.SubscriptionId) is false)
         {
             return Error.NotFound(description: "Subscription not found.");
         }

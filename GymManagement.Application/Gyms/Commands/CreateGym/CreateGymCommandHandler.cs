@@ -22,7 +22,7 @@ public class CreateGymCommandHandler : IRequestHandler<CreateGymCommand, ErrorOr
     {
         var subscription = await this.subscriptionsRepository.GetByIdAsync(command.SubscriptionId);
 
-        if (subscription == null)
+        if (subscription is null)
         {
             return Error.NotFound(description: "Subscription not found.");
         }
