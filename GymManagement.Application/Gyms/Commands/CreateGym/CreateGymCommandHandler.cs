@@ -20,17 +20,6 @@ public class CreateGymCommandHandler : IRequestHandler<CreateGymCommand, ErrorOr
 
     public async Task<ErrorOr<Gym>> Handle(CreateGymCommand command, CancellationToken cancellationToken)
     {
-        var validator = new CreateGymCommandValidator();
-
-        var validatorResult = await validator.ValidateAsync(command);
-
-        if (!validatorResult.IsValid)
-        {
-            return validatorResult.Errors
-                .Select(error => Error.Validation(code: error.PropertyName, description: error.ErrorMessage))
-                .ToArray();
-        }
-
         var subscription = await this.subscriptionsRepository.GetByIdAsync(command.SubscriptionId);
 
         if (subscription is null)
@@ -50,9 +39,9 @@ public class CreateGymCommandHandler : IRequestHandler<CreateGymCommand, ErrorOr
             return addGymResult.Errors;
         }
 
-        await subscriptionsRepository.UpdateAsync(subscription);
-        await gymsRepository.AddGymAsync(gym);
-        await unitOfWork.CommitChangesAsync();
+        await this.subscriptionsRepository.UpdateAsync(subscription);
+        await this.gymsRepository.AddGymAsync(gym);
+        await this.unitOfWork.CommitChangesAsync();
 
         return gym;
     }
