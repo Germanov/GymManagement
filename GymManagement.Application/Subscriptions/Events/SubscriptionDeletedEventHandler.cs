@@ -12,8 +12,14 @@ namespace GymManagement.Application.Subscriptions.Events
 
         public async Task Handle(SubscriptionDeletedEvent notification, CancellationToken cancellationToken)
         {
-            var subscription = await this.subscriptionsRepository.GetByIdAsync(notification.SubscriptionId)
-                ?? throw new InvalidOperationException();
+            var subscription = await this.subscriptionsRepository.GetByIdAsync(notification.SubscriptionId);
+
+
+            if (subscription is null)
+            {
+                // resilient error handling
+                throw new InvalidOperationException();
+            }
 
             await this.subscriptionsRepository.RemoveSubscriptionAsync(subscription);
             await this.unitOfWork.CommitChangesAsync();

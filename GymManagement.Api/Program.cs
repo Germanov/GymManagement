@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddProblemDetails();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services
     .AddApplication()
@@ -17,6 +18,7 @@ builder.Services
 
 var app = builder.Build();
 app.UseExceptionHandler();
+app.AddInfrastructureMiddleware();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
