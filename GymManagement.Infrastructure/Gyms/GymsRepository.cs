@@ -43,7 +43,7 @@ public class GymsRepository : IGymsRepository
         return Task.CompletedTask;
     }
 
-    public Task RemoveGymRangeAsync(List<Gym> gymList)
+    public Task RemoveRangeAsync(List<Gym> gymList)
     {
         dbContext.RemoveRange(gymList);
 

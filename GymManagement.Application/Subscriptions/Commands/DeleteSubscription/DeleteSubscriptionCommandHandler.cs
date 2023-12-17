@@ -4,20 +4,12 @@ using MediatR;
 
 namespace GymManagement.Application.Subscriptions.Commands.DeleteSubscription;
 
-internal class DeleteSubscriptionCommandHandler : IRequestHandler<DeleteSubscriptionCommand, ErrorOr<Deleted>>
+internal class DeleteSubscriptionCommandHandler(ISubscriptionsRepository subscriptionsRepository, IAdminsRepository adminRepository, IUnitOfWork unitOfWork)
+    : IRequestHandler<DeleteSubscriptionCommand, ErrorOr<Deleted>>
 {
-    private readonly ISubscriptionsRepository subscriptionsRepository;
-    private readonly IAdminsRepository adminRepository;
-    private readonly IGymsRepository gymsRepository;
-    private readonly IUnitOfWork unitOfWork;
-
-    public DeleteSubscriptionCommandHandler(ISubscriptionsRepository subscriptionsRepository, IAdminsRepository adminRepository, IGymsRepository gymsRepository, IUnitOfWork unitOfWork)
-    {
-        this.subscriptionsRepository = subscriptionsRepository;
-        this.adminRepository = adminRepository;
-        this.gymsRepository = gymsRepository;
-        this.unitOfWork = unitOfWork;
-    }
+    private readonly ISubscriptionsRepository subscriptionsRepository = subscriptionsRepository;
+    private readonly IAdminsRepository adminRepository = adminRepository;
+    private readonly IUnitOfWork unitOfWork = unitOfWork;
 
     public async Task<ErrorOr<Deleted>> Handle(DeleteSubscriptionCommand command, CancellationToken cancellationToken)
     {
@@ -37,11 +29,7 @@ internal class DeleteSubscriptionCommandHandler : IRequestHandler<DeleteSubscrip
 
         admin.DeleteSubscription(command.SubscriptionId);
 
-        var gymsToDelete = await gymsRepository.ListBySubscriptionIdAsync(command.SubscriptionId);
-
         await adminRepository.UpdateAsync(admin);
-        await subscriptionsRepository.RemoveSubscriptionAsync(subscription);
-        await gymsRepository.RemoveGymRangeAsync(gymsToDelete);
         await unitOfWork.CommitChangesAsync();
 
         return Result.Deleted;
