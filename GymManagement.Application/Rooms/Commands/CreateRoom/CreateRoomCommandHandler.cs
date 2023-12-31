@@ -5,18 +5,11 @@ using MediatR;
 
 namespace GymManagement.Application.Rooms.Commands.CreateRoom;
 
-public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, ErrorOr<Room>>
+public class CreateRoomCommandHandler(ISubscriptionsRepository subscriptionsRepository, IGymsRepository gymsRepository, IUnitOfWork unitOfWork) : IRequestHandler<CreateRoomCommand, ErrorOr<Room>>
 {
-    private readonly ISubscriptionsRepository subscriptionsRepository;
-    private readonly IGymsRepository gymsRepository;
-    private readonly IUnitOfWork unitOfWork;
-
-    public CreateRoomCommandHandler(ISubscriptionsRepository subscriptionsRepository, IGymsRepository gymsRepository, IUnitOfWork unitOfWork)
-    {
-        this.subscriptionsRepository = subscriptionsRepository;
-        this.gymsRepository = gymsRepository;
-        this.unitOfWork = unitOfWork;
-    }
+    private readonly ISubscriptionsRepository subscriptionsRepository = subscriptionsRepository;
+    private readonly IGymsRepository gymsRepository = gymsRepository;
+    private readonly IUnitOfWork unitOfWork = unitOfWork;
 
     public async Task<ErrorOr<Room>> Handle(CreateRoomCommand command, CancellationToken cancellationToken)
     {
@@ -52,4 +45,3 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Error
         return room;
     }
 }
-

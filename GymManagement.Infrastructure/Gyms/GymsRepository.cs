@@ -5,14 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymManagement.Infrastructure.Gyms;
 
-public class GymsRepository : IGymsRepository
+public class GymsRepository(GymManagementDbContext dbContext) : IGymsRepository
 {
-    private readonly GymManagementDbContext dbContext;
-
-    public GymsRepository(GymManagementDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
+    private readonly GymManagementDbContext dbContext = dbContext;
 
     public async Task AddGymAsync(Gym gym)
     {

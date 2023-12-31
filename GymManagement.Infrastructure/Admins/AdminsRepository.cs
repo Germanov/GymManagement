@@ -5,18 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymManagement.Infrastructure.Admins;
 
-public class AdminsRepository : IAdminsRepository
+public class AdminsRepository(GymManagementDbContext dbContext) : IAdminsRepository
 {
-    private readonly GymManagementDbContext dbContext;
-
-    public AdminsRepository(GymManagementDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
+    private readonly GymManagementDbContext dbContext = dbContext;
 
     public Task<Admin?> GetByIdAsync(Guid adminId)
     {
-        return dbContext.Admins.FirstOrDefaultAsync(a => a.Id == adminId);
+        var admin = dbContext.Admins.FirstOrDefaultAsync(a => a.Id == adminId);
+
+        return admin;
     }
 
     public Task UpdateAsync(Admin admin)

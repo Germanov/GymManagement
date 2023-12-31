@@ -4,20 +4,14 @@ using MediatR;
 
 namespace GymManagement.Application.Rooms.Commands.DeleteRoom;
 
-internal class DeleteRoomCommandHandler : IRequestHandler<DeleteRoomCommand, ErrorOr<Deleted>>
+internal class DeleteRoomCommandHandler(IGymsRepository gymsRepository, IUnitOfWork unitOfWork) : IRequestHandler<DeleteRoomCommand, ErrorOr<Deleted>>
 {
-    private readonly IGymsRepository _gymsRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public DeleteRoomCommandHandler(IGymsRepository gymsRepository, IUnitOfWork unitOfWork)
-    {
-        _gymsRepository = gymsRepository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IGymsRepository gymsRepository = gymsRepository;
+    private readonly IUnitOfWork unitOfWork = unitOfWork;
 
     public async Task<ErrorOr<Deleted>> Handle(DeleteRoomCommand command, CancellationToken cancellationToken)
     {
-        var gym = await _gymsRepository.GetByIdAsync(command.GymId);
+        var gym = await gymsRepository.GetByIdAsync(command.GymId);
 
         if (gym is null)
         {
@@ -31,8 +25,8 @@ internal class DeleteRoomCommandHandler : IRequestHandler<DeleteRoomCommand, Err
 
         gym.RemoveRoom(command.RoomId);
 
-        await _gymsRepository.UpdateGymAsync(gym);
-        await _unitOfWork.CommitChangesAsync();
+        await gymsRepository.UpdateGymAsync(gym);
+        await unitOfWork.CommitChangesAsync();
 
         return Result.Deleted;
     }

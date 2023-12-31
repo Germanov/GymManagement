@@ -10,19 +10,22 @@ namespace GymManagement.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection service)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        service.AddDbContext<GymManagementDbContext>(options =>
-        {
-            options.UseSqlite("Data Source = GymManagement.db");
-        });
+        return services
+            .AddPersistence();
+    }
 
-        service.AddScoped<IAdminsRepository, AdminsRepository>();
-        service.AddScoped<IGymsRepository, GymsRepository>();
-        service.AddScoped<ISubscriptionsRepository, SubscriptionsRepository>();
+    public static IServiceCollection AddPersistence(this IServiceCollection services)
+    {
+        services.AddDbContext<GymManagementDbContext>(options =>
+            options.UseSqlite("Data Source = GymManagement.db"));
 
-        service.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<GymManagementDbContext>());
+        services.AddScoped<IAdminsRepository, AdminsRepository>();
+        services.AddScoped<IGymsRepository, GymsRepository>();
+        services.AddScoped<ISubscriptionsRepository, SubscriptionsRepository>();
+        services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<GymManagementDbContext>());
 
-        return service;
+        return services;
     }
 }

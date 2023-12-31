@@ -5,18 +5,13 @@ using MediatR;
 
 namespace GymManagement.Application.Subscriptions.Queries;
 
-public class GetSubscriptionQueryHandler : IRequestHandler<GetSubscriptionQuery, ErrorOr<Subscription>>
+public class GetSubscriptionQueryHandler(ISubscriptionsRepository subscriptionsRepository) : IRequestHandler<GetSubscriptionQuery, ErrorOr<Subscription>>
 {
-    private readonly ISubscriptionsRepository _subscriptionsRepository;
-
-    public GetSubscriptionQueryHandler(ISubscriptionsRepository subscriptionsRepository)
-    {
-        _subscriptionsRepository = subscriptionsRepository;
-    }
+    private readonly ISubscriptionsRepository subscriptionsRepository = subscriptionsRepository;
 
     public async Task<ErrorOr<Subscription>> Handle(GetSubscriptionQuery request, CancellationToken cancellationToken)
     {
-        var subcription = await _subscriptionsRepository.GetByIdAsync(request.SubscriptionId);
+        var subcription = await subscriptionsRepository.GetByIdAsync(request.SubscriptionId);
 
         return subcription is null
             ? Error.NotFound(description: "Subscription not found.")

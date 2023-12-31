@@ -5,18 +5,11 @@ using MediatR;
 
 namespace GymManagement.Application.Gyms.Commands.CreateGym;
 
-public class CreateGymCommandHandler : IRequestHandler<CreateGymCommand, ErrorOr<Gym>>
+public class CreateGymCommandHandler(ISubscriptionsRepository subscriptionsRepository, IGymsRepository gymsRepository, IUnitOfWork unitOfWork) : IRequestHandler<CreateGymCommand, ErrorOr<Gym>>
 {
-    private readonly ISubscriptionsRepository subscriptionsRepository;
-    private readonly IGymsRepository gymsRepository;
-    private readonly IUnitOfWork unitOfWork;
-
-    public CreateGymCommandHandler(ISubscriptionsRepository subscriptionsRepository, IGymsRepository gymsRepository, IUnitOfWork unitOfWork)
-    {
-        this.subscriptionsRepository = subscriptionsRepository;
-        this.gymsRepository = gymsRepository;
-        this.unitOfWork = unitOfWork;
-    }
+    private readonly ISubscriptionsRepository subscriptionsRepository = subscriptionsRepository;
+    private readonly IGymsRepository gymsRepository = gymsRepository;
+    private readonly IUnitOfWork unitOfWork = unitOfWork;
 
     public async Task<ErrorOr<Gym>> Handle(CreateGymCommand command, CancellationToken cancellationToken)
     {
