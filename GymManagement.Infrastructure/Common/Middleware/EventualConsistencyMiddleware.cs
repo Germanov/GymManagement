@@ -1,4 +1,4 @@
-﻿using GymManagement.Domain.Common;
+﻿using GymManagement.Domain.Common.Interfaces;
 using GymManagement.Infrastructure.Common.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Http;

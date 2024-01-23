@@ -11,8 +11,6 @@ namespace GymManagement.Api.Controllers;
 [Route("subscriptions/{subscriptionId:guid}/gyms")]
 public class GymsController(ISender mediator) : ApiController
 {
-    private readonly ISender mediator = mediator;
-
     [HttpPost]
     public async Task<IActionResult> CreateGym(CreateGymRequest request, Guid subscriptionId)
     {

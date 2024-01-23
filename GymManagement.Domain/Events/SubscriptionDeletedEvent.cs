@@ -1,4 +1,4 @@
-﻿using GymManagement.Domain.Common;
+﻿using GymManagement.Domain.Common.Interfaces;
 
 namespace GymManagement.Domain.Events;
 

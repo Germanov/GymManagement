@@ -1,24 +1,26 @@
 using GymManagement.Application.Common.Interfaces;
 using GymManagement.Domain.Admins;
 using GymManagement.Domain.Common;
+using GymManagement.Domain.Common.Interfaces;
 using GymManagement.Domain.Gyms;
 using GymManagement.Domain.Subscriptions;
+using GymManagement.Domain.Users;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace GymManagement.Infrastructure.Common.Persistence;
 
-public class GymManagementDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor)
+public class GymManagementDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor, IPublisher publisher)
     : DbContext(options), IUnitOfWork
 {
     private readonly IHttpContextAccessor httpContextAccessor = httpContextAccessor;
 
     public DbSet<Admin> Admins { get; set; } = null!;
-
     public DbSet<Subscription> Subscriptions { get; set; } = null!;
-
     public DbSet<Gym> Gyms { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
 
     public async Task CommitChangesAsync()
     {
@@ -29,10 +31,18 @@ public class GymManagementDbContext(DbContextOptions options, IHttpContextAccess
             .ToList();
 
         // store them in the http context for later
-        AddDomainEventsToOfflineProcessingQueue(domainEvents);
+        if (IsUserWaitingOnline())
+        {
+            AddDomainEventsToOfflineProcessingQueue(domainEvents);
+        }
+        else
+        {
+            await PublishDomainEvents(publisher, domainEvents);
+        }
 
         await base.SaveChangesAsync();
     }
+    private bool IsUserWaitingOnline() => httpContextAccessor.HttpContext is not null;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,5 +66,13 @@ public class GymManagementDbContext(DbContextOptions options, IHttpContextAccess
 
         //store the queue in the http context
         this.httpContextAccessor.HttpContext!.Items["DomainEventsQueue"] = domainEventsQueue;
+    }
+
+    private static async Task PublishDomainEvents(IPublisher publisher, List<IDomainEvent> domainEvents)
+    {
+        foreach (var domainEvent in domainEvents)
+        {
+            await publisher.Publish(domainEvent);
+        }
     }
 }

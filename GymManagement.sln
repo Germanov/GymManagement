@@ -15,23 +15,48 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "requests", "requests", "{CC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymManagement.Contracts", "GymManagement.Contracts\GymManagement.Contracts.csproj", "{A5C1E7E9-5CC7-40AC-90F9-2D7C0673F83B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Subscription", "Subscription", "{D51A99D9-B903-4C31-9BCB-41E2500FB774}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Subscriptions", "Subscriptions", "{D51A99D9-B903-4C31-9BCB-41E2500FB774}"
 	ProjectSection(SolutionItems) = preProject
 		CreateSubscription.http = CreateSubscription.http
+		requests\Subscriptions\CreateSubscription.http = requests\Subscriptions\CreateSubscription.http
+		requests\Subscriptions\DeleteSubscription.http = requests\Subscriptions\DeleteSubscription.http
 		GetSubscription.http = GetSubscription.http
+		requests\Subscriptions\GetSubscription.http = requests\Subscriptions\GetSubscription.http
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gym", "Gym", "{28542C23-6001-48BA-B711-9D465C71D0D6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gyms", "Gyms", "{28542C23-6001-48BA-B711-9D465C71D0D6}"
 	ProjectSection(SolutionItems) = preProject
+		requests\Gyms\AddTrainer.http = requests\Gyms\AddTrainer.http
 		CreateGym.http = CreateGym.http
+		requests\Gyms\CreateGym.http = requests\Gyms\CreateGym.http
+		requests\Gyms\DeleteGym.http = requests\Gyms\DeleteGym.http
 		GetGym.http = GetGym.http
+		requests\Gyms\ListGyms.http = requests\Gyms\ListGyms.http
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCommon", "TestCommon\TestCommon.csproj", "{E5970792-276B-4082-B82C-1EE5C5C31E24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCommon", "TestCommon\TestCommon.csproj", "{E5970792-276B-4082-B82C-1EE5C5C31E24}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CF7F6D2B-ED81-4287-91DC-9CC9528E36B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymManagement.Domain.UnitTests", "GymManagement.Domain.UnitTests\GymManagement.Domain.UnitTests.csproj", "{69F667B7-9541-4604-B6B1-2096D6DEEA11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymManagement.Domain.UnitTests", "GymManagement.Domain.UnitTests\GymManagement.Domain.UnitTests.csproj", "{69F667B7-9541-4604-B6B1-2096D6DEEA11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{066277F6-8CD9-41ED-87FE-0FE45D03D190}"
+	ProjectSection(SolutionItems) = preProject
+		requests\Authentication\Login.http = requests\Authentication\Login.http
+		requests\Authentication\Register.http = requests\Authentication\Register.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rooms", "Rooms", "{E8CF81A9-940B-4CF2-846E-7F3D532F94EB}"
+	ProjectSection(SolutionItems) = preProject
+		requests\Rooms\CreateRoom.http = requests\Rooms\CreateRoom.http
+		requests\Rooms\DeleteRoom.http = requests\Rooms\DeleteRoom.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Profiles", "Profiles", "{86A524A8-2142-4567-ABDA-B8EE89F4D1C9}"
+	ProjectSection(SolutionItems) = preProject
+		requests\Profiles\CreateProfile.http = requests\Profiles\CreateProfile.http
+		requests\Profiles\ListProfiles.http = requests\Profiles\ListProfiles.http
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +101,9 @@ Global
 		{28542C23-6001-48BA-B711-9D465C71D0D6} = {CCA63E47-81CD-498D-B128-58090C126976}
 		{E5970792-276B-4082-B82C-1EE5C5C31E24} = {CF7F6D2B-ED81-4287-91DC-9CC9528E36B0}
 		{69F667B7-9541-4604-B6B1-2096D6DEEA11} = {CF7F6D2B-ED81-4287-91DC-9CC9528E36B0}
+		{066277F6-8CD9-41ED-87FE-0FE45D03D190} = {CCA63E47-81CD-498D-B128-58090C126976}
+		{E8CF81A9-940B-4CF2-846E-7F3D532F94EB} = {CCA63E47-81CD-498D-B128-58090C126976}
+		{86A524A8-2142-4567-ABDA-B8EE89F4D1C9} = {CCA63E47-81CD-498D-B128-58090C126976}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1519213D-E05D-4A71-B113-8032C641CCA2}

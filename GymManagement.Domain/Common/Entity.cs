@@ -1,4 +1,6 @@
-﻿namespace GymManagement.Domain.Common;
+﻿using GymManagement.Domain.Common.Interfaces;
+
+namespace GymManagement.Domain.Common;
 
 public abstract class Entity
 {

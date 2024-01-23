@@ -7,7 +7,10 @@ namespace GymManagement.Infrastructure.Admins;
 
 public class AdminsRepository(GymManagementDbContext dbContext) : IAdminsRepository
 {
-    private readonly GymManagementDbContext dbContext = dbContext;
+    public async Task AddAdminAsync(Admin admin)
+    {
+        await dbContext.Admins.AddAsync(admin);
+    }
 
     public Task<Admin?> GetByIdAsync(Guid adminId)
     {
